@@ -5,6 +5,8 @@ let path = require('path');
 let cookieParser = require('cookie-parser');
 let logger = require('morgan');
 let mongoose = require('mongoose');
+// Parse du corps de la requête
+const bodyParser = require('body-parser');
 
 // Connexion à Mongo
 mongoose.connect('mongodb://localhost/catalogue',{ useNewUrlParser: true })
@@ -31,9 +33,9 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
 // Les midlewares
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
