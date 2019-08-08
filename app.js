@@ -4,10 +4,24 @@ let express = require('express');
 let path = require('path');
 let cookieParser = require('cookie-parser');
 let logger = require('morgan');
+let mongoose = require('mongoose');
+
+// Connexion à Mongo
+mongoose.connect('mongodb://localhost/catalogue',{ useNewUrlParser: true })
+    .then(
+        () => console.log('Connexion Mongo OK !'),
+        (err) => {
+          throw new Error(err.message)
+        }
+    )
+;
+
+console.log(mongoose.connection);
 
 // Les imports de routage
 let indexRouter = require('./routes/index');
 let usersRouter = require('./routes/users');
+let recipeRouter = require('./routes/recipe');
 
 // Création de l'application
 let app = express();
@@ -16,7 +30,7 @@ let app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
-// Les midlewarres
+// Les midlewares
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -26,6 +40,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Les midlewares de routage
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/recettes', recipeRouter);
 
 // Gestion de l'erreur 404
 app.use(function(req, res, next) {
