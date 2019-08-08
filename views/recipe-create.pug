@@ -14,5 +14,9 @@ block body
       .form-group
         label(for='nbIngredients') Nombre d'ingrédients
         input#nbIngredients.form-control(type='number', name="nbIngredients").form-group
-
+      h3 Ingrédients de la recette
+      #ingredients
       button.btn.btn-primary(type='submit') Créer
+
+block append javascripts
+  script(src="/js/form-onetomany.js")
