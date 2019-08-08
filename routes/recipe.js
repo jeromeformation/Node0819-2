@@ -5,16 +5,14 @@ const createError = require('http-errors');
 
 router.get('/ajout', function(req, res, next) {
     // Création d'une recette
-    const recipe = new Recipe(
+    Recipe.create(
         {
-            name: "Gateau au chocolat",
+            name: "Gateau au chocolat 3",
             intro: "Idéal pour le déssert",
             nbIngredients: 4,
             publishedAt: new Date()
         }
-    );
-    // Sauvegarde en BDD
-    recipe.save()
+    )
         .then(
             recipe => console.log('Recette sauvegardée'),
             err => console.log(err)
