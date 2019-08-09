@@ -129,6 +129,55 @@ module.exports.lastFive = (req, res, next) => {
         })
 };
 
+module.exports.update = (req, res, next) => {
+    // Récupération du slug
+    const slug = req.params.slug;
+
+    Recipe.findOne(
+        {slug: slug},
+        (err, recipe) => {
+            if (err) next(err);
+            else res.render('recipes/update', {recipe: recipe});
+        }
+    );
+};
+module.exports.updateCheck = (req, res, next) => {
+    // Récupération du slug
+    const slug = req.params.slug;
+    let recipeBDD;
+
+    Recipe.findOne(
+        {slug: slug},
+        (err, recipeBDD) => {
+            if (err) next(err);
+            else {
+                recipe = recipeBDD;
+                // fix temporaire
+                req.body.ingredients = recipe.ingredients;
+
+                Recipe.update(
+                    {slug: slug},
+                    req.body,
+                    (err, nbLines) => {
+                        if (err) next(err);
+                        else {
+                            if (nbLines === 1) {
+                                console.log("Produit bien modifié")
+                            } else {
+                                console.log("Produit non-trouvé ou identique")
+                            }
+                        }
+                    }
+                );
+
+                res.redirect('/recettes/' + recipe.slug + '/edit');
+            }
+        }
+    );
+
+
+};
+
 
 
 

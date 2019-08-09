@@ -1,0 +1,11 @@
+extends ../layout
+
+block body
+  - const update = true
+  main.container
+    h1= "Modification de la recette : " + recipe.name
+
+    include form
+
+block append javascripts
+  script(src="/js/form-onetomany.js")
