@@ -8,3 +8,5 @@ block body
                 li= recipe.name + ' '
                     a(href="/recettes/" + recipe.slug) Voir la recette
                     include delete-form
+block append javascripts
+    script(src="/js/confirm-form-delete.js")
