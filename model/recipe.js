@@ -8,13 +8,14 @@ const ingredientsSchema = new mongoose.Schema({
 
 let recipeSchema = new mongoose.Schema({
     name: String,
+    slug: String,
     intro: String,
     nbIngredients: Number,
     publishedAt: Date,
     ingredients: [ingredientsSchema]
 });
 
-module.exports.Recipe = mongoose.model('Recipe', recipeSchema);
+module.exports = mongoose.model('Recipe', recipeSchema);
 
 
 

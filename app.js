@@ -18,8 +18,6 @@ mongoose.connect('mongodb://localhost/catalogue',{ useNewUrlParser: true })
     )
 ;
 
-console.log(mongoose.connection);
-
 // Les imports de routage
 let indexRouter = require('./routes/index');
 let usersRouter = require('./routes/users');
