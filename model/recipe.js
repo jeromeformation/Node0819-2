@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const ingredientsSchema = new mongoose.Schema({
     name: String,
-    quantity: Number,
+    quantity: mongoose.Types.Decimal128,
     unit: String
 });
 

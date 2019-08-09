@@ -4,5 +4,6 @@ block body
     main.container
         h1 Liste des recettes
         ul
-        each recipe in recipes
-            li= recipe.name
+            each recipe in recipes
+                li= recipe.name + ' '
+                    a(href="/recettes/" + recipe.slug) Voir la recette

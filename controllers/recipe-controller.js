@@ -1,6 +1,7 @@
 const Recipe = require('../model/recipe');
 const createError = require('http-errors');
 const slug = require('slug');
+const nl2br = require('nl2br');
 
 /**
  * Affichage du formulaire de création d'une recette (GET)
@@ -47,3 +48,90 @@ module.exports.list = (req, res, next) => {
         }
     });
 };
+
+/**
+ * Affiche le détail d'une recette par rapport au slug de l'URL
+ * @param req
+ * @param res
+ * @param next
+ */
+module.exports.show = (req, res, next) => {
+    // Récupération du slug
+    const slug = req.params.slug;
+    // Récupération de la recette correspondante
+    Recipe.findOne(
+        {
+            slug: slug
+        },
+        (err, recipe) => {
+            if (err) {
+                console.log(err);
+                next(err);
+            } else {
+                console.log(recipe);
+                recipe.intro = nl2br(recipe.intro);
+                res.render('recipes/show', {recipe: recipe});
+            }
+        }
+    );
+};
+
+
+
+/**
+ *  Liste les recettes ayant l'ingrédient envoyé
+ * @param req
+ * @param res
+ * @param next
+ */
+module.exports.search = (req, res, next) => {
+    // Récupération de l'ingrédient rempli dans le formulaie
+    const ing = req.body.ingredient;
+    // Récupération des recettes correspondantes
+    const pattern = new RegExp(ing, 'i');
+    Recipe.find(
+        {
+            "ingredients.name": pattern
+        },
+        (err, recipes) => {
+            if (err) {
+                console.log(err);
+                next(err);
+            } else {
+                console.log(recipes);
+                recipes.intro = nl2br(recipes.intro);
+                res.render('recipes/list', {recipes: recipes});
+            }
+        }
+    );
+};
+
+/**
+ *  Liste les recettes ayant l'ingrédient envoyé
+ * @param req
+ * @param res
+ * @param next
+ */
+module.exports.lastFive = (req, res, next) => {
+    Recipe.find()
+        .sort({'publishedAt': 'desc'})
+        .limit(5)
+        .select('name intro')
+        .exec((err, recipes) => {
+            if (err) {
+                console.log(err);
+                next(err);
+            }
+            else {
+                console.log(recipes);
+                res.render('index', {recipes: recipes})
+            }
+        })
+};
+
+
+
+
+
+
+

@@ -1,0 +1,14 @@
+extends ../layout
+
+block body
+    main.container
+        h1= recipe.name
+        h2 Les ingrédients
+        ul
+            each ing in recipe.ingredients
+                if(ing.unit === 'unité')
+                    li= ing.quantity + ' ' + ing.name
+                else
+                    li= ing.quantity + ing.unit + ' de ' + ing.name
+        h2 Les étapes
+        p !{recipe.intro}
