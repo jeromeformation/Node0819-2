@@ -155,7 +155,7 @@ module.exports.updateCheck = (req, res, next) => {
                 // fix temporaire
                 req.body.ingredients = recipe.ingredients;
 
-                Recipe.update(
+                Recipe.updateOne(
                     {slug: slug},
                     req.body,
                     (err, nbLines) => {
@@ -174,9 +174,18 @@ module.exports.updateCheck = (req, res, next) => {
             }
         }
     );
-
-
 };
+
+module.exports.delete = (req, res, next) => {
+    Recipe.remove(
+        {slug: req.params.slug},
+        (err, nbLines) => {
+            if (err) next(err);
+            else res.redirect('/recettes');
+        }
+    );
+};
+
 
 
 

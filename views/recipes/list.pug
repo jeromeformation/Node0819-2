@@ -7,3 +7,4 @@ block body
             each recipe in recipes
                 li= recipe.name + ' '
                     a(href="/recettes/" + recipe.slug) Voir la recette
+                    include delete-form

@@ -15,6 +15,7 @@ router.route('/ajout')
 ;
 router.route('/:slug')
     .get(recipeController.show)
+    .delete(recipeController.delete)
 ;
 router.route('/:slug/edit')
     .get(recipeController.update)
